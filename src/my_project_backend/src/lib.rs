@@ -1,14 +1,18 @@
 use std::cell::RefCell;
 
 thread_local! {
-    static COUNTER: RefCell<String> = RefCell::new(String::new());
+    static CHAT: RefCell<Vec<String>> = RefCell::new(Vec::new());
 }
 
-#[ic_cdk_macros::query]
-fn get() -> String {
-    let a = String::from("123");
-    let b = String::from("3121");
-    COUNTER.with(|counter| (*counter.borrow()).clone())
+
+#[ic_cdk::query]
+fn get_chat() -> Vec<String> {
+    CHAT.with(|chat| chat.borrow().clone())
+}
+
+#[ic_cdk::update]
+fn add_msg(new_msg: String) {
+    CHAT.with(|chat| chat.borrow_mut().push(new_msg))
 }
 
 #[ic_cdk::query]
