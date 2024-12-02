@@ -4,7 +4,6 @@ thread_local! {
     static CHAT: RefCell<Vec<String>> = RefCell::new(Vec::new());
 }
 
-
 #[ic_cdk::query]
 fn get_chat() -> Vec<String> {
     CHAT.with(|chat| chat.borrow().clone())
